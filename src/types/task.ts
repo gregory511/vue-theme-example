@@ -1,0 +1,5 @@
+export type Task = {
+    name: string;
+    done: boolean;
+    tasks?: Task[] | null;
+}
