@@ -7,8 +7,6 @@
 
         <ProgressBar :value="taskListProgress"></ProgressBar>
 
-        <ThrottleExample></ThrottleExample>
-
         <TaskList class="mt-4" ref="taskList" :tasks="taskData"></TaskList>
     </div>
 </template>
@@ -21,7 +19,6 @@ import { computed, ref } from 'vue';
 import { tasks } from '@/data/tasks';
 import ProgressBar from '../ui/ProgressBar.vue';
 import LocalThemeSelector from '../tests/LocalThemeSelector.vue';
-import ThrottleExample from '../ui/ThrottleExample.vue';
 
 type TaskListInstance = InstanceType<typeof TaskList>
 

@@ -96,6 +96,12 @@ const navLinks: NavLink[] = [
         requireLogout: false
     },
     {
+        route: 'timing',
+        label: 'Timing',
+        requireLogin: false,
+        requireLogout: true
+    },
+    {
         route: 'login',
         label: 'Se connecter',
         requireLogin: false,
