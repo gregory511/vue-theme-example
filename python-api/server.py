@@ -4,7 +4,8 @@ from database import (
     init_db,
     create_user,
     authenticate_user,
-    get_user_by_token
+    get_user_by_token,
+    get_articles
 )
 
 app = Flask(__name__)
@@ -20,24 +21,18 @@ def add_cors_headers(response):
 
 # On simule quelques articles
 @app.route("/articles", methods=["GET"])
-def get_articles():
+def articles():
     user = get_user_from_bearer_token()
     if user is None:
         return jsonify({"error": "Invalid token"}), 401
+    
+    articles = get_articles()
+    output = 
 
-    articles = [
-        {
-            "id"     : 1,
-            "title"  : "ESGI",
-            "content": "<h1>ESGI</h1>"
-        },
-        {
-            "id"     : 2,
-            "title"  : "Test",
-            "content": "<b>Un autre test</b>"
-        },
-    ]
-
+    return jsonify({
+        "id": user["id"],
+        "username": user["username"]
+    })
     return jsonify(articles)
 
 @app.route("/register", methods=["POST"])

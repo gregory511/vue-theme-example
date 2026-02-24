@@ -2,18 +2,43 @@ import sqlite3
 import hashlib
 import uuid
 
-DATABASE = "users.db"
+DATABASE = "data.db"
 
 def init_db():
     conn = sqlite3.connect(DATABASE)
-    conn.execute("""
-        CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            username TEXT UNIQUE NOT NULL,
-            password TEXT NOT NULL,
-            token TEXT
-        )
-    """)
+    try: 
+        conn.execute("""
+            CREATE TABLE users (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                username TEXT UNIQUE NOT NULL,
+                password TEXT NOT NULL,
+                token TEXT
+            );
+        """)
+
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS articles (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                title TEXT UNIQUE NOT NULL,
+                description TEXT NOT NULL,
+                content TEXT NOT NULL
+            );
+        """)
+
+        conn.execute("INSERT INTO users (username, password) VALUES (?, ?)", (
+            "admin",
+            hash_password("password")
+        ))
+
+        conn.executemany("INSERT INTO articles (title, description, content) VALUES (?,?,?)", [
+            ("Les dangers du Local Storage", "Pourquoi ne faut-il pas stocker de token dans le local storage et pourquoi je le fais quand même dans cet exemple ?", "Contenu..."),
+            (":root et variables CSS", "Comment créer un système avec plusieurs thèmes ?", "A écrire..."),
+        ])
+        
+    except Exception as e:
+        print(e)
+        pass
+
     conn.commit()
     conn.close()
 
@@ -65,6 +90,13 @@ def authenticate_user(username, password):
 
     return token
 
+def get_articles():
+    conn = get_connection()
+    articles = conn.execute(
+        "SELECT id, title, description, content FROM articles LIMIT 10"
+    ).fetchall()
+    conn.close()
+    return articles
 
 def get_user_by_token(token):
     conn = get_connection()
