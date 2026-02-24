@@ -1,16 +1,18 @@
 <template>
-    <header class="app-header" :class="{ 'scrolled': isScrolled }">
+    <header class="app-header shadow-md" :class="{ 'scrolled': isScrolled }">
         <div class="header-inner">
 
             <RouterLink to="/" class="logo">
                 <span class="logo-name">Demo ESGI</span>
             </RouterLink>
 
-            <div v-if="userStore.user">
-                Bonjour, {{ userStore.user.username }} !
-            </div>
-
             <nav class="nav" aria-label="Main navigation">
+
+
+                <div v-if="userStore.user">
+                    Bonjour, {{ userStore.user.username }} !
+                </div>
+
 
                 <template v-for="navLink in navLinks" :key="navLink.route">
                     <RouterLink v-if="isAllowed(navLink)" :to="{ 'name': navLink.route }" class="mobile-link"
@@ -18,7 +20,6 @@
                         {{ navLink.label }}
                     </RouterLink>
                 </template>
-
 
                 <Button v-if="userStore.loggedIn" @click="userStore.logOut()" class="ml-4">
                     Se déconnecter
@@ -40,13 +41,17 @@
         <Transition name="mobile-menu">
             <div v-if="menuOpen" class="mobile-menu">
 
-
                 <template v-for="navLink in navLinks" :key="navLink.route">
                     <RouterLink v-if="isAllowed(navLink)" :to="{ 'name': navLink.route }" class="mobile-link"
                         @click="menuOpen = false">
                         {{ navLink.label }}
                     </RouterLink>
                 </template>
+
+                
+                <a class="mobile-link" v-if="userStore.loggedIn" @click="userStore.logOut()">
+                    Se déconnecter
+                </a>
             </div>
         </Transition>
     </header>
@@ -126,7 +131,7 @@ const navLinks: NavLink[] = [
     gap: 2rem;
     max-width: 72rem;
     margin: 0 auto;
-    padding: 0 2rem;
+    padding: var(--header-padding);
     height: 4rem;
 }
 
@@ -220,8 +225,11 @@ const navLinks: NavLink[] = [
 .mobile-menu {
     display: flex;
     flex-direction: column;
-    border-top: 1px solid var(--color-border);
-    background-color: var(--color-surface);
+    justify-content: start;
+    align-items: start;
+    border-top: 1px solid var(--color-primary);
+    border-bottom: 1px solid var(--color-primary);
+    background-color: var(--color-base-200);
     padding: 0.75rem 2rem 1.25rem;
     gap: 0.25rem;
 }

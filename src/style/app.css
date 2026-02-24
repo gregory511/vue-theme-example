@@ -65,6 +65,8 @@
     --color-black: oklch(5% 0 0);
 
     --main-width: 60%;
+    --spacing: 0.25em;
+    --header-padding: 2rem;
 }
 
 @theme {
@@ -240,17 +242,9 @@
         min-height: 100vh;
     }
 
-    main {
-        /* Pour que ce bloc prenne le plus de hauteur possible
-        et pousse le footer en bas de la page même si le contenu est vide
-        */
-        flex: 1;
-        padding: 2em;
-    }
-
-
     h1, h2, h3, h4, h5, h6 {
         font-family: var(--font-display);
+        margin-bottom: var(--spacing);
     }
 
     h1 { font-size: 2rem; }
@@ -279,8 +273,19 @@
             color 0.15s ease;
     }
 
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5em;
+        align-items: start;
+    }
+
     form:invalid button {
         opacity: 40%;
         cursor:not-allowed;
+    }
+
+    select {
+        @apply bg-primary px-4 py-2 rounded-sm text-primary-content;
     }
 }

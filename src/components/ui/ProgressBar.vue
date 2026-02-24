@@ -5,7 +5,7 @@
             bg-neutral
             relative"
         >
-        <div class="bg-primary h-full"
+        <div class="bg-primary h-full duration-300 transition-width"
         :style="{
             width: fillPercentage + '%'
         }"></div>

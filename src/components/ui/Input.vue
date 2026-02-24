@@ -1,25 +1,22 @@
 <template>
-    <input v-bind="attrs" :value="props.modelValue"
-        @input="updateValue"
-        class="
-      bg-primary text-primary-content
+    <input v-bind="attrs" :value="props.modelValue" @input="updateValue" class="
+      bg-primary/35 text-primary-content
       border-0
       rounded-sm
-      px-3 py-2"
-      :class="attrs.class" />
+      px-3 py-2" :class="attrs.class" />
 </template>
 
 <script setup lang="ts">
 import { useAttrs } from 'vue';
 
 interface Props {
-    modelValue?: string
+    modelValue?: any 
 }
 
 const props = defineProps<Props>();
 
 const emit = defineEmits<{
-    (e: 'update:modelValue', value: string): void
+    (e: 'update:modelValue', value: any): void
 }>();
 
 const attrs = useAttrs();

@@ -1,11 +1,16 @@
 <template>
-    <h1>Bienvenue sur cette Demo !</h1>
-  
-    <LocalThemeSelector></LocalThemeSelector>
+    <div class="flex flex-col gap-4">
 
-    <ProgressBar :value="taskListProgress"></ProgressBar>
+        <h1>Bienvenue sur cette Demo !</h1>
 
-    <TaskList class="mt-4" ref="taskList" :tasks="taskData"></TaskList>
+        <LocalThemeSelector></LocalThemeSelector>
+
+        <ProgressBar :value="taskListProgress"></ProgressBar>
+
+        <ThrottleExample></ThrottleExample>
+
+        <TaskList class="mt-4" ref="taskList" :tasks="taskData"></TaskList>
+    </div>
 </template>
 
 
@@ -16,13 +21,14 @@ import { computed, ref } from 'vue';
 import { tasks } from '@/data/tasks';
 import ProgressBar from '../ui/ProgressBar.vue';
 import LocalThemeSelector from '../tests/LocalThemeSelector.vue';
+import ThrottleExample from '../ui/ThrottleExample.vue';
 
 type TaskListInstance = InstanceType<typeof TaskList>
 
 const taskData = ref<Task[]>(tasks);
-const taskList = ref<TaskListInstance|null>(null);
+const taskList = ref<TaskListInstance | null>(null);
 
-const taskListProgress = computed(() : number => {
+const taskListProgress = computed((): number => {
     if (taskList.value === null)
         return 0;
 

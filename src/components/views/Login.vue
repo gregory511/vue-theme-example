@@ -1,10 +1,7 @@
 <template>
     <h1>Connexion</h1>
 
-    <p>Identifiants par défaut : admin/password</p>
-    <p>Pensez à démarrer le serveur Python</p>
-
-    <form @submit.prevent="onFormSubmit" class="flex flex-col gap-3 items-start">
+    <form @submit.prevent="onFormSubmit">
         <Input required type="text" v-model="credentials.username" placeholder="Utilisateur"/>
         <Input required type="password" v-model="credentials.password" placeholder="Mot de passe"/>
         <Button role="submit">Valider</Button>
