@@ -1,4 +1,4 @@
-import { ref, watchEffect } from 'vue'
+import { ref, watchEffect } from 'vue';
 
 const theme = ref(localStorage.getItem('theme') ?? 'aurum');
 document.documentElement.dataset.theme = theme.value;

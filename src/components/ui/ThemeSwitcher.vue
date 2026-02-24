@@ -3,7 +3,9 @@
         <button 
             v-for="t in themes" :key="t.value"
             class="w-8 h-8 rounded-full cursor-pointer opacity-40 transition-opacity duration-300"
-            :class="{ 'border-2 border-black/40 opacity-100 ': theme === t.value }"
+            :class="{ 
+                'border-2 border-black/40 opacity-100 ': theme === t.value 
+            }"
             :style="{ 'background': t.color }" 
             :title="t.label" 
             :aria-pressed="theme === t.value"

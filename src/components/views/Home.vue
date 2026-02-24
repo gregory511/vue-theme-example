@@ -1,55 +1,29 @@
 <template>
     <h1>Bienvenue sur cette Demo !</h1>
 
-    <code>
-test
-    </code>
-    <TaskList :tasks="tasks"></TaskList>
+    <ProgressBar :value="taskListProgress"></ProgressBar>
+
+    <TaskList class="mt-4" ref="taskList" :tasks="taskData"></TaskList>
 </template>
 
 
 <script setup lang="ts">
 import type { Task } from '@/types/task';
 import TaskList from '@/components//ui/TaskList.vue';
-import { reactive } from 'vue';
+import { computed, ref } from 'vue';
+import { tasks } from '@/data/tasks';
+import ProgressBar from '../ui/ProgressBar.vue';
 
-const tasks = reactive<Task[]>([
-    {
-        done: false,
-        name: "Tâches domestiques",
-        tasks: [
-            {
-                done: false,
-                name: "Laver les carreaux"
-            },
-            {
-                done: true,
-                name: "Faire la vaisselle"
-            },
-            {
-                done: true,
-                name: "Peinture",
-                tasks: [
-                    {
-                        done: true,
-                        name: "Salle de bain"
-                    },
-                    {
-                        done: true,
-                        name: "Chambre"
-                    },
-                ]
-            },
-            {
-                done: true,
-                name: "Repasser les chemises"
-            },
-        ]
-    },
+type TaskListInstance = InstanceType<typeof TaskList>
 
-    {
-        done: false,
-        name: "Courses"
-    },
-]);
+const taskData = ref<Task[]>(tasks);
+const taskList = ref<TaskListInstance|null>(null);
+
+const taskListProgress = computed(() : number => {
+    if (taskList.value === null)
+        return 0;
+
+    return taskList.value.getProgress;
+})
+
 </script>
