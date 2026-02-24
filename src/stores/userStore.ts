@@ -1,27 +1,51 @@
+/**
+ * 
+ * Note importante 
+ * 
+ */
+
 import { defineStore } from 'pinia'
 import { type User, type UserCredentials } from '@/types/user'
 import axios from 'axios';
 import { API_URL } from '@/network';
 
 type UserStore = {
-    user: User | null,
+    user    : User | null,
     loggedIn: boolean,
+    token   : string | null,
 };
 
 export const useUserStore = defineStore('user', {
     state: (): UserStore => ({
         user: null,
         loggedIn: false,
+        token: null,
     }),
 
     actions: {
 
-
         setUser(user: User, token: string) {
             this.user = user;
             this.loggedIn = true;
+            this.token = token;
+
+
+            /** 
+             * Attention en production !
+             * Le LocalStorage est sensible aux attaques XSS
+             * contrairement à un cookie HTTP Only+secure
+             */
 
             window.localStorage.setItem("token", token);
+        },
+
+        bearerHeader() {
+            if (this.token === null)
+                return {};
+
+            return {
+                'Authorization': `Bearer ${this.token}` 
+            }
         },
 
         async tryReconnect(): Promise<boolean> {

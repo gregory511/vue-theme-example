@@ -1,5 +1,7 @@
 <template>
     <h1>Bienvenue sur cette Demo !</h1>
+  
+    <LocalThemeSelector></LocalThemeSelector>
 
     <ProgressBar :value="taskListProgress"></ProgressBar>
 
@@ -13,6 +15,7 @@ import TaskList from '@/components//ui/TaskList.vue';
 import { computed, ref } from 'vue';
 import { tasks } from '@/data/tasks';
 import ProgressBar from '../ui/ProgressBar.vue';
+import LocalThemeSelector from '../tests/LocalThemeSelector.vue';
 
 type TaskListInstance = InstanceType<typeof TaskList>
 

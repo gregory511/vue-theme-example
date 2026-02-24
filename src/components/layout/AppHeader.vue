@@ -27,9 +27,9 @@
                     S'inscrire
                 </RouterLink>
 
-                <button v-if="userStore.loggedIn" @click="userStore.logOut()">
+                <Button v-if="userStore.loggedIn" @click="userStore.logOut()">
                     Se déconnecter
-                </button>
+                </Button>
             </nav>
 
             <div class="header-end">
@@ -59,6 +59,7 @@ import { ref } from 'vue'
 import ThemeSwitcher from '@/components/ui/ThemeSwitcher.vue'
 import { useScrolled } from '@/composables/useScrolled'
 import { useUserStore } from '@/stores/userStore';
+import Button from '../ui/Button.vue';
 
 const userStore = useUserStore();
 

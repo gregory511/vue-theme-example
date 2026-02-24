@@ -1,27 +1,30 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-
 import App from '@/App.vue'
 import router from './router'
 import axios from 'axios'
 import { useUserStore } from './stores/userStore'
 
-axios.interceptors.response.use(response => {
-    return response;
-}, error => {
-    if (error.response.status === 401) {
-        alert("Unauthorized")
-    }
-    return error;
-});
-
-
 const app = createApp(App);
+const pinia = createPinia();
 
-app.use(createPinia());
+app.use(pinia);
 app.use(router);
 
-app.mount('#app');
+axios.interceptors.response.use(
+    response => response,
+    error => {
+        if (error.response?.status === 401) {
+            // Todo
+        }
 
-const store = useUserStore();
-store.tryReconnect();
+        return Promise.reject(error);
+    }
+)
+
+const store = useUserStore(pinia);
+
+(async () => {
+    await store.tryReconnect()
+    app.mount('#app')
+})();

@@ -2,8 +2,8 @@
     <h1>Inscription</h1>
 
     <form @submit.prevent="onFormSubmit" class="flex flex-col gap-3 items-start">
-        <input required type="text" v-model="credentials.username" placeholder="utilisateur">
-        <input required type="password" v-model="credentials.password" placeholder="Mot de passe">
+        <Input required type="text" v-model="credentials.username" placeholder="utilisateur"/>
+        <Input required type="password" v-model="credentials.password" placeholder="Mot de passe"/>
 
         <div v-if="registerError"
             class="bg-warning p-4 text-neutral-content"
@@ -11,7 +11,7 @@
             Une erreur s'est produite lors de la création du compte.
         </div>
 
-        <button role="submit">Valider</button>
+        <Button role="submit">Valider</Button>
     </form>
 </template>
 
@@ -20,6 +20,8 @@ import { useUserStore } from '@/stores/userStore';
 import type { UserCredentials } from '@/types/user';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import Input from '../ui/Input.vue';
+import Button from '../ui/Button.vue';
 
 const credentials = ref<UserCredentials>({
     username: "",
