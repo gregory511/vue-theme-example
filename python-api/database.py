@@ -92,6 +92,7 @@ def authenticate_user(username, password):
 
 def get_articles():
     conn = get_connection()
+    
     articles = conn.execute(
         "SELECT id, title, description, content FROM articles LIMIT 10"
     ).fetchall()

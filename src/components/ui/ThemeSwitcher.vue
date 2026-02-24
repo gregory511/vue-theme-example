@@ -1,21 +1,27 @@
 <template>
     <div class="hidden lg:flex items-center gap-2">
-        <button 
-            v-for="t in themes" :key="t.value"
-            class="w-8 h-8 rounded-full cursor-pointer opacity-40 transition-opacity duration-300"
-            :class="{ 
-                'border-2 border-black/40 opacity-100 ': theme === t.value 
-            }"
+        <div 
+            v-for="t in themes" :key="t.value">
+            
+            <input type="checkbox" :checked="theme === t.value" class="sr-only peer"/>
+            <div
+                class="w-8 h-8 rounded-full overflow-hidden cursor-pointer opacity-40 transition-opacity duration-300
+                peer-checked:opacity-100
+                peer-checked:border
+                peer-checked:border-black/40
+                "
             :style="{ 'background': t.color }" 
             :title="t.label" 
             :aria-pressed="theme === t.value"
             @click="theme = t.value"
-        />
+            </div>
+        </div>
     </div>
 </template>
 
 <script setup>
 import { useTheme } from '@/composables/useTheme'
+import Checkbox from './Checkbox.vue';
 
 const { theme } = useTheme();
 

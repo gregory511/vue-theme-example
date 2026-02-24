@@ -11,23 +11,16 @@
             </div>
 
             <nav class="nav" aria-label="Main navigation">
-                <RouterLink :to="{ name: 'home' }" key="home" class="nav-link">
-                    Accueil
-                </RouterLink>
-  
-                <RouterLink :to="{name: 'blog' }" key="blog" class="nav-link">
-                    Le Blog
-                </RouterLink>
 
-                <RouterLink v-if="!userStore.loggedIn" :to="{name: 'login' }" key="login" class="nav-link">
-                    Se connecter
-                </RouterLink>
+                <template v-for="navLink in navLinks" :key="navLink.route">
+                    <RouterLink v-if="isAllowed(navLink)" :to="{ 'name': navLink.route }" class="mobile-link"
+                        @click="menuOpen = false">
+                        {{ navLink.label }}
+                    </RouterLink>
+                </template>
 
-                <RouterLink v-if="!userStore.loggedIn" :to="{name: 'register' }" key="register" class="nav-link">
-                    S'inscrire
-                </RouterLink>
 
-                <Button v-if="userStore.loggedIn" @click="userStore.logOut()">
+                <Button v-if="userStore.loggedIn" @click="userStore.logOut()" class="ml-4">
                     Se déconnecter
                 </Button>
             </nav>
@@ -40,21 +33,26 @@
                     <span />
                     <span />
                 </button>
+
             </div>
         </div>
 
         <Transition name="mobile-menu">
             <div v-if="menuOpen" class="mobile-menu">
-                <RouterLink v-for="link in navLinks" :key="link.to" :to="link.to" class="mobile-link"
-                    @click="menuOpen = false">
-                    {{ link.label }}
-                </RouterLink>
+
+
+                <template v-for="navLink in navLinks" :key="navLink.route">
+                    <RouterLink v-if="isAllowed(navLink)" :to="{ 'name': navLink.route }" class="mobile-link"
+                        @click="menuOpen = false">
+                        {{ navLink.label }}
+                    </RouterLink>
+                </template>
             </div>
         </Transition>
     </header>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 import ThemeSwitcher from '@/components/ui/ThemeSwitcher.vue'
 import { useScrolled } from '@/composables/useScrolled'
@@ -66,11 +64,44 @@ const userStore = useUserStore();
 const { isScrolled } = useScrolled();
 const menuOpen = ref(false);
 
-const navLinks = [
-    { to: '/', label: 'Accueil' },
-    { to: '/blog', label: 'Blog' },
-    { to: '/login', label: 'Se connecter' },
-    { to: '/register', label: 'Créer un compte' },
+type NavLink = {
+    route: string;
+    label: string;
+    requireLogin: boolean;
+    requireLogout: boolean;
+}
+
+const isAllowed = (link: NavLink): boolean => {
+    return (!link.requireLogin && !link.requireLogout)
+        || (link.requireLogin && userStore.loggedIn)
+        || (link.requireLogout && !userStore.loggedIn);
+}
+
+const navLinks: NavLink[] = [
+    {
+        route: 'home',
+        label: 'Accueil',
+        requireLogin: false,
+        requireLogout: false
+    },
+    {
+        route: 'blog',
+        label: 'Blog',
+        requireLogin: true,
+        requireLogout: false
+    },
+    {
+        route: 'login',
+        label: 'Se connecter',
+        requireLogin: false,
+        requireLogout: true
+    },
+    {
+        route: 'register',
+        label: 'Créer un compte',
+        requireLogin: false,
+        requireLogout: true
+    },
 ];
 </script>
 

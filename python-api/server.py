@@ -26,13 +26,7 @@ def articles():
     if user is None:
         return jsonify({"error": "Invalid token"}), 401
     
-    articles = get_articles()
-    output = 
-
-    return jsonify({
-        "id": user["id"],
-        "username": user["username"]
-    })
+    articles = [dict(row) for row in get_articles()] 
     return jsonify(articles)
 
 @app.route("/register", methods=["POST"])

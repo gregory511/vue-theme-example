@@ -63,6 +63,8 @@
     /* Tons neutres partagés */
     --color-white: oklch(100% 0 0);
     --color-black: oklch(5% 0 0);
+
+    --main-width: 60%;
 }
 
 @theme {

@@ -1,6 +1,9 @@
 <template>
     <h1>Connexion</h1>
 
+    <p>Identifiants par défaut : admin/password</p>
+    <p>Pensez à démarrer le serveur Python</p>
+
     <form @submit.prevent="onFormSubmit" class="flex flex-col gap-3 items-start">
         <Input required type="text" v-model="credentials.username" placeholder="Utilisateur"/>
         <Input required type="password" v-model="credentials.password" placeholder="Mot de passe"/>
@@ -17,8 +20,8 @@ import Input from '../ui/Input.vue';
 import Button from '../ui/Button.vue';
 
 const credentials = ref<UserCredentials>({
-    username: "",
-    password: "",
+    username: "admin",
+    password: "password",
 });
 
 const userStore = useUserStore();

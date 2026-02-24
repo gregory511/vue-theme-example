@@ -1,6 +1,10 @@
 <template>
     <AppHeader />
-    <main>
+    <main class="w-full lg:w-[calc(var(--main-width))]
+        lg:ml-[calc(50%-var(--main-width)/2)]
+        flex flex-col
+        items-start
+    ">
         <RouterView v-slot="{ Component }">
             <component :is="Component" />
         </RouterView>
