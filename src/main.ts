@@ -3,10 +3,25 @@ import { createPinia } from 'pinia'
 
 import App from '@/App.vue'
 import router from './router'
+import axios from 'axios'
+import { useUserStore } from './stores/userStore'
 
-const app = createApp(App)
+axios.interceptors.response.use(response => {
+    return response;
+}, error => {
+    if (error.response.status === 401) {
+        alert("Unauthorized")
+    }
+    return error;
+});
 
-app.use(createPinia())
-app.use(router)
 
-app.mount('#app')
+const app = createApp(App);
+
+app.use(createPinia());
+app.use(router);
+
+app.mount('#app');
+
+const store = useUserStore();
+store.tryReconnect();

@@ -6,10 +6,30 @@
                 <span class="logo-name">Demo ESGI</span>
             </RouterLink>
 
+            <div v-if="userStore.user">
+                Bonjour, {{ userStore.user.username }} !
+            </div>
+
             <nav class="nav" aria-label="Main navigation">
-                <RouterLink v-for="link in navLinks" :key="link.to" :to="link.to" class="nav-link">
-                    {{ link.label }}
+                <RouterLink :to="{ name: 'home' }" key="home" class="nav-link">
+                    Accueil
                 </RouterLink>
+  
+                <RouterLink :to="{name: 'blog' }" key="blog" class="nav-link">
+                    Le Blog
+                </RouterLink>
+
+                <RouterLink v-if="!userStore.loggedIn" :to="{name: 'login' }" key="login" class="nav-link">
+                    Se connecter
+                </RouterLink>
+
+                <RouterLink v-if="!userStore.loggedIn" :to="{name: 'register' }" key="register" class="nav-link">
+                    S'inscrire
+                </RouterLink>
+
+                <button v-if="userStore.loggedIn" @click="userStore.logOut()">
+                    Se déconnecter
+                </button>
             </nav>
 
             <div class="header-end">
@@ -38,25 +58,28 @@
 import { ref } from 'vue'
 import ThemeSwitcher from '@/components/ui/ThemeSwitcher.vue'
 import { useScrolled } from '@/composables/useScrolled'
+import { useUserStore } from '@/stores/userStore';
 
-const { isScrolled } = useScrolled()
-const menuOpen = ref(false)
+const userStore = useUserStore();
+
+const { isScrolled } = useScrolled();
+const menuOpen = ref(false);
 
 const navLinks = [
     { to: '/', label: 'Accueil' },
-    { to: '/test', label: 'Test' },
-    { to: '/about', label: 'A propos' },
-    { to: '/contact', label: 'Contact' },
-]
+    { to: '/blog', label: 'Blog' },
+    { to: '/login', label: 'Se connecter' },
+    { to: '/register', label: 'Créer un compte' },
+];
 </script>
 
 <style scoped>
 .app-header {
-    position        : sticky;
-    top             : 0;
-    z-index         : 100;
+    position: sticky;
+    top: 0;
+    z-index: 100;
     background-color: var(--color-base-100);
-    border-bottom   : 1px solid transparent;
+    border-bottom: 1px solid transparent;
     transition: border 0.4s ease;
 }
 
