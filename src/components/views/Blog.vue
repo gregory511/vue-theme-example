@@ -8,9 +8,11 @@
                 class="bg-neutral-100 flex flex-col
                 items-start
                     min-h-full p-6 gap-y-4">
-                <h1 class="text-primary font-bold">{{ article.title }}</h1>
+                <h1 class="text-primary">{{ article.title }}</h1>
                 <p class="grow">{{ article.description }}</p>
-                <Button class="self-end justify-self-end">Lire l'article</Button>
+                <Button class="self-end justify-self-end mt-4"
+                    @click="$router.push({ name: 'blog.article', params: { articleId: article.id }})"
+                >Lire l'article</Button>
             </article>
         </div>
     </div>

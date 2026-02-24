@@ -5,7 +5,7 @@ from database import (
     create_user,
     authenticate_user,
     get_user_by_token,
-    get_articles
+    get_articles, get_article
 )
 
 app = Flask(__name__)
@@ -28,6 +28,16 @@ def articles():
     
     articles = [dict(row) for row in get_articles()] 
     return jsonify(articles)
+
+# On simule quelques articles
+@app.route("/articles/<id>", methods=["GET"])
+def article(id: int):
+    user = get_user_from_bearer_token()
+    if user is None:
+        return jsonify({"error": "Invalid token"}), 401
+    
+    article = get_article(id)
+    return jsonify(dict(article))
 
 @app.route("/register", methods=["POST"])
 def register():

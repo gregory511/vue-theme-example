@@ -90,6 +90,15 @@ def authenticate_user(username, password):
 
     return token
 
+def get_article(id: int):
+    conn = get_connection()
+    
+    article = conn.execute(
+        "SELECT id, title, description, content FROM articles WHERE id = ? ", (id, )
+    ).fetchone()
+    conn.close()
+    return article
+
 def get_articles():
     conn = get_connection()
     
